@@ -67,7 +67,7 @@ public class BrickDemo extends Application {
 			Point p = brickPoints[i];
 			int x = originalX + p.x * 30;
 			int y = p.y + originalY;
-			System.out.println("=======x:" + x + "  y:" + y);
+			//System.out.println("=======x:" + x + "  y:" + y);
 			brickgc.fillRect(x, y, width, height);
 		}
 		// brickgc.fillRect(p.x, p.y, width, height);

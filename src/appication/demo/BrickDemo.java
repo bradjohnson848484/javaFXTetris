@@ -1,7 +1,8 @@
-package application;
+package appication.demo;
 
 import java.awt.Point;
 
+import application.LineBrick;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -88,32 +89,12 @@ public class BrickDemo extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.LEFT) {
 					goLeft(lineBricks, brickgc);
-					// x axis cannot lower that 0
-					// if (p.x > 15) {
-					// brickgc.clearRect(p.x, p.y, width, height);
-					// p.x = p.x - 30;
-					// brickgc.fillRect(p.x, p.y, width, height);
-					// }
 				} else if (event.getCode() == KeyCode.RIGHT) {
 					goRight(lineBricks, brickgc);
-					// if (p.x < 270) {
-					// brickgc.clearRect(p.x, p.y, width, height);
-					// p.x = p.x + 30;
-					// brickgc.fillRect(p.x, p.y, width, height);
-					// }
 				} else if (event.getCode() == KeyCode.UP) {
-					//rotate(lineBricks, brickgc);
 					lineBricks.rotate(brickgc);
-					// brickgc.clearRect(p.x, p.y, width, height);
-					// p.y = p.y - 30;
-					// brickgc.fillRect(p.x, p.y, width, height);
 				} else if (event.getCode() == KeyCode.DOWN) {
 					goDown(lineBricks, brickgc);
-					// if (p.y < 540) {
-					// brickgc.clearRect(p.x, p.y, width, height);
-					// p.y = p.y + 30;
-					// brickgc.fillRect(p.x, p.y, width, height);
-					// }
 				}
 			}
 		});

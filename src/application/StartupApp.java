@@ -1,13 +1,14 @@
 package application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,6 +32,16 @@ public class StartupApp extends Application {
 
 		background.getChildren().add(brickCanvas);
 
+		// score label
+		
+		// next brick box
+		
+		// pause/start button
+		
+		// new game button
+		
+		
+		
 		GamePad gamePad = new GamePad(brickgc);
 		gamePad.play();
 
@@ -47,6 +58,14 @@ public class StartupApp extends Application {
 
 			}
 		});
+		
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 	}
 
 	private Pane generateBackground() {

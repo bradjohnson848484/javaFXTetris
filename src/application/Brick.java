@@ -18,10 +18,10 @@ public abstract class Brick {
 		return points;
 	}
 	
-	protected boolean goLeft(GraphicsContext gc) {
+	protected boolean goLeft(GraphicsContext gc,boolean[][] gameBoard) {
 		Point[] brickPoints = getPoints();
 		for (int i = 0; i < brickPoints.length; i++) {
-			if (brickPoints[i].x * 30 -30 < 0) {
+			if (brickPoints[i].x * 30 -30 < 0||gameBoard[brickPoints[i].x-1][brickPoints[i].y]){
 				return false;
 			}
 		}
@@ -37,10 +37,10 @@ public abstract class Brick {
 		return true;
 	}
 	
-	protected boolean goRight(GraphicsContext gc) {
+	protected boolean goRight(GraphicsContext gc,boolean[][] gameBoard) {
 		Point[] brickPoints = getPoints();
 		for (int i = 0; i < brickPoints.length; i++) {
-			if (brickPoints[i].x * 30 + 30 > 270) {
+			if (brickPoints[i].x * 30 + 30 > 270||gameBoard[brickPoints[i].x+1][brickPoints[i].y]) {
 				return false;
 			}
 		}
@@ -56,11 +56,11 @@ public abstract class Brick {
 		return true;
 	}
 	
-	protected boolean goDown(GraphicsContext gc) {
+	protected boolean goDown(GraphicsContext gc,boolean[][] gameBoard) {
 
 		Point[] brickPoints = getPoints();
 		for (int i = 0; i < brickPoints.length; i++) {
-			if (brickPoints[i].y * 30 + 30 > 540) {
+			if (brickPoints[i].y * 30 + 30 > 540||gameBoard[brickPoints[i].x][brickPoints[i].y+1]) {
 				return false;
 			}
 		}

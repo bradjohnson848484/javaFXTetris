@@ -20,7 +20,7 @@ public class GamePad {
 	private boolean[][] gameBoard;
 	private Color[][] pieceColors;
 	
-	private Thread gameThread = null;
+	//private Thread gameThread = null;
 	
 	public GamePad(GraphicsContext gc) {
 		brickgc = gc;
@@ -125,11 +125,23 @@ public class GamePad {
 	public void play() {
 		//LineBrick lineBricks = generateBricks();
 		
-		gameThread = new Thread(new Runnable() {
+		Thread	gameThread = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 					while(!isGameOver()) {
+						
+					if (pause) {
+						synchronized (brick) {
+							try {
+								brick.wait();
+								// pause = true;
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+						
 						if (collision()) {
 							recordTheCoordinate();
 							checkFullRow();
@@ -142,7 +154,7 @@ public class GamePad {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						boolean isDown = brick.goDown(brickgc);
+						boolean isDown = brick.goDown(brickgc, gameBoard);
 						if(!isDown) {
 							System.out.println("******* the brick got bottom now start new round");
 							recordTheCoordinate();
@@ -158,46 +170,36 @@ public class GamePad {
 
 	public void gameController(KeyEvent event) {
 		if (event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.A) {
-			Point[] ps = brick.getPoints();
-			for (int i = 0; i < ps.length; i++) {
-				Point p = ps[i];
-				if(gameBoard[p.x-1][p.y]) {
-					return;
-				}
-			}
-			brick.goLeft(brickgc);
+			brick.goLeft(brickgc, gameBoard);
 		}
 		else if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.D) {
-			Point[] ps = brick.getPoints();
-			for (int i = 0; i < ps.length; i++) {
-				Point p = ps[i];
-				if(gameBoard[p.x+1][p.y]) {
-					return;
-				}
-			}
 			
-			brick.goRight(brickgc);
+			brick.goRight(brickgc, gameBoard);
 		}
 		else if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.W) {
 			brick.rotate(brickgc);
 		}
 		else if (event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.S) {
-			Point[] ps = brick.getPoints();
-			for (int i = 0; i < ps.length; i++) {
-				Point p = ps[i];
-				if(gameBoard[p.x][p.y+1]) {
-					return;
-				}
-			}
-			brick.goDown(brickgc);
+			brick.goDown(brickgc, gameBoard);
 		}
 		else if (event.getCode() == KeyCode.SPACE) {
+//			if (pause) {
+//				gameThread.resume();
+//				pause = false;	
+//			} else {
+//				gameThread.suspend();
+//				pause = true;
+//			}
+			
 			if (pause) {
-				gameThread.resume();
-				pause = false;	
-			}
-			else {
-				gameThread.suspend();
+				System.out.println("======= recover");
+				pause = false;
+				synchronized (brick) {
+					brick.notifyAll();
+//					pause = false;
+				}
+			} else {
+				System.out.println("======= pause");
 				pause = true;
 			}
 		}
